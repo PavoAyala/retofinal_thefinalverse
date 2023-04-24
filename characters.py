@@ -48,3 +48,9 @@ match lang:
         print("You are in an very windy place outside the holy region you are up in the sky in a forest wich is floating in the sky by clouds like all the holy kingdom.")
         sleep(delay)
         print("Wait you heard something is humans trying to pass into the holy forest you need to defend it.")
+    
+
+class Conect_History:
+
+    #Aqui se creara la historia que conecta a las 3 razas
+    print("")
