@@ -17,6 +17,7 @@ class fight_menu:
         
     #EL menu que mostrara durante el combate 
 
+
 class fight:
     print("")
     #Aqui sera un sistema de combate por turnos que prende que el que gane el que haga que el hp del rival llegue a zero
