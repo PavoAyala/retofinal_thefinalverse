@@ -14,13 +14,13 @@ lang = input("Cual es la cuenta que quieres usar? \ncuenta1\ncuenta2\ncuenta3\n 
 
 
 match lang:
-    case "cuenta1":
+    case "cuenta 1":
         print("Bienvenido a tu nueva cuenta.")
 
 
-    case "cuenta2":
+    case "cuenta 2":
         print("Bienvenido a tu nueva cuenta.")
 
-    case "cuenta3":
+    case "cuenta 3":
         print("Bienvenido a tu nueva cuenta.")
     
