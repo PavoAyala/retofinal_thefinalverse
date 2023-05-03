@@ -1,5 +1,6 @@
 from time import sleep
 from os import system
+import random
 
 #Aqui van a estar las bases de stats de las razas
 class Individual:
@@ -50,15 +51,30 @@ class Human(Individual):
     def __init__(self, **options) -> None:
         super().__init__(**super().base_stats['human'])
 
-    def attack (self, target):
-        target.hp -= self.strenght
-        target.recibir_damage(self.attaque)
-    
-    def recib_attack(self, damage):
+    def attack(self, target):
+        damage = self.ataque - target.defensa
+        if damage < 0:
+            damage = 0
+        target.recib_damage(damage)
+        
+    def recib_damage(self, damage):
         self.hp -= damage
-        print(f" you recib {damage} of damage")
-        if self.hp  <= 0:
-            print(f"haz muerto")
+        print(f"recib {damage} of damage.")
+        if self.hp <= 0:
+            print(f"You are Dead")
+            
+    def curar(self, amount):
+        self.hp += amount
+        if self.hp > 100:
+            self.hp = 100
+        print(f"has been cured {amount} life points.")
+        
+    def defenderse(self):
+        self.defensa = 5
+        print(f"¡it's defending!.")
+        
+    def reset_defensa(self):
+        self.defensa = 0
 
 class Demon(Individual):
     def __init__(self, **options) -> None:
@@ -76,6 +92,52 @@ class Angel(Individual):
 
 #Aqui va a estar el sistemas de combate
 
+class fight_system:
+    def __init__(self, jugador):
+        self.jugador = Human, Demon, Angel
+        
+    def start(self):
+        for i in range(5):
+            print(f"--- Turno {i+1} ---")
+            for jugador in self.jugador:
+                if jugador.vida <= 0:
+                    continue
+                print(f"!Es tu turno¡")
+                print("¿Qué acción deseas realizar?")
+                print("1. Atacar")
+                print("2. Curar")
+                print("3. Defenderse")
+                opcion = int(input())
+                if opcion == 1:
+                    print("Elige a quién atacar:")
+                    for j, target in enumerate(self.jugador):
+                        if target != jugador and target.vida > 0:
+                            print(f"{j+1}. {target.nombre}")
+                    target = int(input()) - 1
+                    jugador.attack(self.jugador[target])
+
+                elif opcion == 2:
+                    cantidad = random.randint(10, 30)
+                    jugador.curar(cantidad)
+
+                elif opcion == 3:
+                    jugador.defenderse()
+                    
+                else:
+                    print("Opción inválida. Pierdes tu turno.")
+                    
+            for jugador in self.jugadores:
+                jugador.reset_defensa()
+                    
+        print("Fin del juego.")
+        vivos = [jugador for jugador in self.jugadores if jugador.vida > 0]
+        if len(vivos) == 1:
+            print(f"{vivos[0].nombre} ha ganado.")
+        else:
+            print("¡Ha sido un empate!")
+                
+
+'''
 class combat:
     def __init__(self, jugador):
         self.jugador = Human, Demon, Angel
@@ -92,7 +154,7 @@ class combat:
                 print("Chosse the target: ")
                 for i, objetivo in enumerate(self.jugador):
                     if jugador != objetivo and objetivo.vida > 0:
-                        print(f"{i+1}. {objetivo}")
+                        print(f"{i+1}. {objetivo}")'''
                 
 
 
