@@ -1,6 +1,7 @@
 from time import sleep
 from os import system
 import random
+import characters
 
 #Aqui van a estar las bases de stats de las razas
 class Individual:
@@ -163,20 +164,12 @@ class enemy_stats:
             'dark': 60,
             'strenght': 230,
         },
-        'God':{
+        'elden ghost':{
             'hp': 350, 
             'defense': 240,
             'mana': 230,
             'faith': 300,
             'dark': 0,
-            'strenght': 200,
-        },
-        'Demon King':{
-            'hp': 350, 
-            'defense': 240,
-            'mana': 230,
-            'faith': 0,
-            'dark': 300,
             'strenght': 200,
         }
     }
@@ -252,19 +245,20 @@ class malenia(enemy_stats):
     def __init__(self, **options) -> None:
         super().__init__(**super().enemy['malenia'])
 
-class god(enemy_stats):
+class elden_ghost(enemy_stats):
     def __init__(self, **options) -> None:
-        super().__init__(**super().enemy['god'])
+        super().__init__(**super().enemy['elden ghost'])
 
-class demon_king(enemy_stats):
-    def __init__(self, **options) -> None:
-        super().__init__(**super().enemy['demon king'])
-    
 #Aqui va a estar el sistemas de combate
 
 class fight_system:
-    def __init__(self, jugador):
-        self.jugador = Human, Demon, Angel
+    def __init__(self, lang):
+        if lang == 'human':
+            self.jugador = Human
+        elif lang == 'demon':
+            self.jugador = Demon
+        elif lang == 'angel':
+            self.jugador = Angel
         
     def start(self):
         for i in range():
@@ -287,7 +281,7 @@ class fight_system:
                     jugador.attack(self.jugador[target])
 
                 elif opcion == 2:
-                    cantidad = random.randint(10, 30, 50, 70, 90, 110, 300)
+                    cantidad = random.randint(10, 30, 50, 70, 90, 110)
                     jugador.curar(cantidad)
 
                 elif opcion == 3:
