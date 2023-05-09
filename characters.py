@@ -1,7 +1,6 @@
-from msilib.schema import SelfReg
 from time import sleep
 from os import system
-from stats import fight_system
+import stats
 import sys
 
 delay = 1
@@ -47,7 +46,7 @@ match lang:
                 sleep(delay)
                 print("He starts attackin you but you manage to dodge his attacks")
                 sleep(delay)
-                fight_system(lang)
+                stats.FightSystem.start()
                 system("cls")
                 print("The way this angel acts is like if he wasn't in control")
                 sleep(delay)
