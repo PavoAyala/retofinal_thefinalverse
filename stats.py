@@ -1,6 +1,8 @@
 from time import sleep
 from os import system
 import random
+from random import randint
+from characters import Human, Demon, Angel
 
 #Aqui van a estar las bases de stats de las razas
 class Individual:
@@ -56,11 +58,10 @@ class Individual:
         if self.hp <= 0:
             print("You are dead.")
             
-    def heal(self, amount):
-        self.hp += amount
-        if self.hp > 100:
-            self.hp = 100
-        print(f"Healed {amount} life points.")
+    def heal(self, target):
+        amount = randint(10, 30)
+        target.curar(amount)
+        print(f"{target} has been healed for {amount} HP.")
         
     def defend(self):
         self.defense += 5
