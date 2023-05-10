@@ -20,10 +20,10 @@ print("You are in the middle of a snowy forest it is to cold for you soyou start
 sleep(delay)
 lang2 = input("What are you going to do?\n\t\t\t[1.- You go fight the Hunters]\n\t\t\t[2.- You go searchin for another place to shellter]")
 if lang2 == "1":
-        FightSystem(lang).start()
-        system("cls")
-        print("You have defeated the hunters, you stay inside the shellter a few hours to sleep")
-        sleep(delay)
+    FightSystem(lang).start()
+    system("cls")
+    print("You have defeated the hunters, you stay inside the shellter a few hours to sleep")
+    sleep(delay)
                         
 elif lang2 == "2":
     print("You found another cabain so you stay a few hours to sleep")
