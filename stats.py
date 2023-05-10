@@ -1,3 +1,4 @@
+import random
 from random import randint, choice
 
 #Aqui van a estar las bases de stats de las razas
@@ -55,7 +56,7 @@ class Individual:
             print("You are dead.")
             
     def heal(self, target):
-        amount = randint(10, 30, 50, 70, 90, 110)
+        amount = randint(10, 30)
         target.heal(amount)
         print(f"{target} has been healed for {amount} HP.")
         
@@ -200,6 +201,180 @@ class EldenGhost(Enemy):
         super().__init__('elden ghost', **options)
 
 
+class FightSystem1:
+    def __init__(self, player_type):
+        if player_type == 'human':
+            self.player = Human()
+        elif player_type == 'demon':
+            self.player = Demon()
+        elif player_type == 'angel':
+            self.player = Angel()
+        else:
+            raise ValueError("Invalid player type")
+
+    def start(self):
+        for i in range(1, 3):  # Número de turnos
+            print(f"--- Turno {i} ---")
+            if self.player.hp <= 0:
+                print("You are defeated.")
+                break
+
+            print("It's your turn!")
+            print("What action do you want to take?")
+            print("1. Attack")
+            print("2. Heal")
+            print("3. Defend")
+            print("-----------------------------------------")
+            option = int(input())
+
+            self.enemies = (Enemy('hunter'))
+
+            if option == 1:
+                for index, target in enumerate(self.enemies):
+                    if target.hp > 0:
+                        print(f"{index + 1}. {target.enemy_type}")
+                target_index = int(input()) - 1
+                self.player.attack(self.enemies[target_index])
+
+            elif option == 2:
+                amount = random.choice([10, 30, 50, 70, 90, 110])
+                self.player.heal(amount)
+
+            elif option == 3:
+                self.player.defend()
+
+            else:
+                print("Invalid option. You lose one turn.")
+
+            for enemy in self.enemies:
+                if enemy.hp > 0:
+                    enemy.attack(self.player)
+                else:
+                    enemy.reset_defense()
+        print("End of the fight.")
+        if self.player.hp <= 0:
+            print("You are defeated.")
+        elif self.enemies == 0:
+            print("You win!")
+        else:
+            print("It's a tie.")
+
+class FightSystem2:
+    def __init__(self, player_type):
+        if player_type == 'human':
+            self.player = Human()
+        elif player_type == 'demon':
+            self.player = Demon()
+        elif player_type == 'angel':
+            self.player = Angel()
+        else:
+            raise ValueError("Invalid player type")
+
+    def start(self):
+        for i in range(1, 3):  # Número de turnos
+            print(f"--- Turno {i} ---")
+            if self.player.hp <= 0:
+                print("You are defeated.")
+                break
+
+            print("It's your turn!")
+            print("What action do you want to take?")
+            print("1. Attack")
+            print("2. Heal")
+            print("3. Defend")
+            print("-----------------------------------------")
+            option = int(input())
+
+            self.enemies = Enemy('goblin')
+
+            if option == 1:
+                for index, target in enumerate(self.enemies):
+                    if target.hp > 0:
+                        print(f"{index + 1}. {target.enemy_type}")
+                target_index = int(input()) - 1
+                self.player.attack(self.enemies[target_index])
+
+            elif option == 2:
+                amount = random.choice([10, 30, 50, 70, 90, 110])
+                self.player.heal(amount)
+
+            elif option == 3:
+                self.player.defend()
+
+            else:
+                print("Invalid option. You lose one turn.")
+
+            for enemy in self.enemies:
+                if enemy.hp > 0:
+                    enemy.attack(self.player)
+                else:
+                    enemy.reset_defense()
+        print("End of the fight.")
+        if self.player.hp <= 0:
+            print("You are defeated.")
+        elif self.enemies == 0:
+            print("You win!")
+        else:
+            print("It's a tie.")
+
+class FightSystem3:
+    def __init__(self, player_type):
+        if player_type == 'human':
+            self.player = Human()
+        elif player_type == 'demon':
+            self.player = Demon()
+        elif player_type == 'angel':
+            self.player = Angel()
+        else:
+            raise ValueError("Invalid player type")
+
+    def start(self):
+        for i in range(1, 3):  # Número de turnos
+            print(f"--- Turno {i} ---")
+            if self.player.hp <= 0:
+                print("You are defeated.")
+                break
+
+            print("It's your turn!")
+            print("What action do you want to take?")
+            print("1. Attack")
+            print("2. Heal")
+            print("3. Defend")
+            print("-----------------------------------------")
+            option = int(input())
+
+            self.enemies = (Enemy('skeletons'))
+
+            if option == 1:
+                for index, target in enumerate(self.enemies):
+                    if target.hp > 0:
+                        print(f"{index + 1}. {target.enemy_type}")
+                target_index = int(input()) - 1
+                self.player.attack(self.enemies[target_index])
+
+            elif option == 2:
+                amount = random.choice([10, 30, 50, 70, 90, 110])
+                self.player.heal(amount)
+
+            elif option == 3:
+                self.player.defend()
+
+            else:
+                print("Invalid option. You lose one turn.")
+
+            for enemy in self.enemies:
+                if enemy.hp > 0:
+                    enemy.attack(self.player)
+                else:
+                    enemy.reset_defense()
+        print("End of the fight.")
+        if self.player.hp <= 0:
+            print("You are defeated.")
+        elif self.enemies == 0:
+            print("You win!")
+        else:
+            print("It's a tie.")
+
 class FightSystem:
     def __init__(self, player_type):
         if player_type == 'human':
@@ -236,7 +411,7 @@ class FightSystem:
                 self.player.attack(self.enemies[target_index])
 
             elif option == 2:
-                amount = choice([10, 30, 50, 70, 90, 110])
+                amount = random.choice([10, 30, 50, 70, 90, 110])
                 self.player.heal(amount)
 
             elif option == 3:
@@ -250,7 +425,6 @@ class FightSystem:
                     enemy.attack(self.player)
                 else:
                     enemy.reset_defense()
-
         print("End of the fight.")
         if self.player.hp <= 0:
             print("You are defeated.")
