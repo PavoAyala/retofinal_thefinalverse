@@ -1,25 +1,26 @@
 from msilib.schema import SelfReg
 from time import sleep
 from os import system
-from stats import fight_system
+import stats
 import sys
 
 delay = 1
-print("---------Bienvenido a nuestro mundo--------")
+print("---------Welcome to our world--------")
 sleep(delay)
-input("Presione una tecla para continuar...")
+input("Press a key to continue...")
 
 system('cls')
 
-delay = 4
+delay = 1
 lang = input("----Wich class are you going to choose for your new game?----\n\t\t\t[Human]\n\t\t\t[Demon]\n\t\t\t[Angel]\n-------------------------------------------------------------\n")
+
 print("You just woke up from a hundred years sleep, is a dark place you are trapped somewhere so you push and get out from a coffin. ")
 sleep(delay)
 print("You are in the middle of a snowy forest it is to cold for you soyou start lookin around and you see a cabin and you peek in and see some Hunters.")
 sleep(delay)
 lang2 = input("What are you going to do?\n\t\t\t[1.- You go fight the Hunters]\n\t\t\t[2.- You go searchin for another place to shellter]")
 if lang2 == "1":
-        fight_system
+        stats.FightSystem(lang).start()
         system("cls")
         print("You have defeated the hunters, you stay inside the shellter a few hours to sleep")
         sleep(delay)

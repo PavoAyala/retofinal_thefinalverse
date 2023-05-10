@@ -1,8 +1,4 @@
-from time import sleep
-from os import system
-import random
-from random import randint
-from characters import Human, Demon, Angel
+from random import randint, choice
 
 #Aqui van a estar las bases de stats de las razas
 class Individual:
@@ -46,11 +42,7 @@ class Individual:
     def __repr__(self) -> str:
         return f"Hp: {self.hp}\nDefense: {self.defense}\nMana: {self.mana}\nFaith: {self.faith}\nDarkness: {self.dark}\nStrength: {self.strength}\n"
     
-    def attack(self, target):
-        damage = self.strength - target.defense
-        if damage < 0:
-            damage = 0
-        target.receive_damage(damage)
+    
         
     def receive_damage(self, damage):
         self.hp -= damage
@@ -59,8 +51,8 @@ class Individual:
             print("You are dead.")
             
     def heal(self, target):
-        amount = randint(10, 30)
-        target.curar(amount)
+        amount = randint(10, 30, 50, 70, 90, 110)
+        target.heal(amount)
         print(f"{target} has been healed for {amount} HP.")
         
     def defend(self):
@@ -69,21 +61,39 @@ class Individual:
         
     def reset_defense(self):
         self.defense = 0
-
+ 
 class Human(Individual):
     def __init__(self, **options) -> None:
         super().__init__(**Individual.base_stats['human'])
 
+    def attack(self, target):
+        damage = self.strength - target.defense
+        if damage < 0:
+            damage = 0
+        target.receive_damage(damage)
+
 class Demon(Individual):
     def __init__(self, **options) -> None:
         super().__init__(**Individual.base_stats['demon'])
+    
+    def attack(self, target):
+        damage = self.dark - target.defense
+        if damage < 0:
+            damage = 0
+        target.receive_damage(damage)
 
 class Angel(Individual):
     def __init__(self, **options) -> None:
         super().__init__(**Individual.base_stats['angel'])
+    
+    def attack(self, target):
+        damage = self.faith - target.defense
+        if damage < 0:
+            damage = 0
+        target.receive_damage(damage)
 
-class EnemyStats:
-    enemy = {
+class Enemy:
+    enemy_stats = {
         'hunter': {
             'hp': 110,
             'defense': 10,
@@ -91,14 +101,6 @@ class EnemyStats:
             'faith': 20,
             'dark': 20,
             'strength': 50,
-        },
-        'thief': {
-            'hp': 120,
-            'defense': 15,
-            'mana': 90,
-            'faith': 30,
-            'dark': 30,
-            'strength': 60,
         },
         'goblin': {
             'hp': 70,
@@ -108,29 +110,13 @@ class EnemyStats:
             'dark': 40,
             'strength': 30,
         },
-        'knight': {
-            'hp': 140,
-            'defense': 50,
-            'mana': 80,
-            'faith': 80,
-            'dark': 40,
-            'strength': 100,
-        },
-        'dark knight': {
+        'fallenangel': {
             'hp': 180,
-            'defense': 100,
-            'mana': 140,
-            'faith': 120,
-            'dark': 80,
-            'strength': 160,
-        },
-        'boss holy knight': {
-            'hp': 250,
-            'defense': 180,
-            'mana': 200,
-            'faith': 180,
-            'dark': 120,
-            'strength': 200,
+            'defense': 120,
+            'mana': 100,
+            'faith': 0,
+            'dark': 110,
+            'strength': 80,
         },
         'skeletons': {
             'hp': 180,
@@ -139,14 +125,6 @@ class EnemyStats:
             'faith': 0,
             'dark': 110,
             'strength': 80,
-        },
-        'malenia': {
-            'hp': 300,
-            'defense': 200,
-            'mana': 190,
-            'faith': 160,
-            'dark': 60,
-            'strength': 230,
         },
         'elden ghost': {
             'hp': 350,
@@ -158,9 +136,10 @@ class EnemyStats:
         }
     }
 
-    def __init__(self, enemy_type, **options):
-        stats = self.enemy.get(enemy_type)
+    def __init__(self, enemy_type):
+        stats = self.enemy_stats.get(enemy_type)
         if stats is not None:
+            self.enemy_type = enemy_type.title()
             self.hp = stats.get('hp', 150)
             self.defense = stats.get('defense', 50)
             self.mana = stats.get('mana', 50)
@@ -186,7 +165,7 @@ class EnemyStats:
             print("The enemy is defeated.")
             
     def heal(self, target):
-        amount = random.randint(10, 30)
+        amount = randint(10, 30)
         target.heal(amount)
         print(f"{target} has been healed for {amount} HP.")
         
@@ -198,47 +177,25 @@ class EnemyStats:
         self.defense = 0
 
 
-class Hunter(EnemyStats):
+class Hunter(Enemy):
     def __init__(self, **options):
         super().__init__('hunter', **options)
 
 
-class Thief(EnemyStats):
-    def __init__(self, **options):
-        super().__init__('thief', **options)
-
-
-class Goblin(EnemyStats):
+class Goblin(Enemy):
     def __init__(self, **options):
         super().__init__('goblin', **options)
 
-
-class Knight(EnemyStats):
+class FallenAngel(Enemy):
     def __init__(self, **options):
-        super().__init__('knight', **options)
+        super().__init__('fallenangel', **options)
 
-
-class DarkKnight(EnemyStats):
-    def __init__(self, **options):
-        super().__init__('dark knight', **options)
-
-
-class BossHolyKnight(EnemyStats):
-    def __init__(self, **options):
-        super().__init__('boss holy knight', **options)
-
-
-class Skeletons(EnemyStats):
+class Skeletons(Enemy):
     def __init__(self, **options):
         super().__init__('skeletons', **options)
 
 
-class Malenia(EnemyStats):
-    def __init__(self, **options):
-        super().__init__('malenia', **options)
-
-
-class EldenGhost(EnemyStats):
+class EldenGhost(Enemy):
     def __init__(self, **options):
         super().__init__('elden ghost', **options)
 
@@ -255,7 +212,7 @@ class FightSystem:
             raise ValueError("Invalid player type")
 
     def start(self):
-        for i in range(1, 4):  # Número de turnos
+        for i in range(1, 3):  # Número de turnos
             print(f"--- Turno {i} ---")
             if self.player.hp <= 0:
                 print("You are defeated.")
@@ -266,18 +223,20 @@ class FightSystem:
             print("1. Attack")
             print("2. Heal")
             print("3. Defend")
+            print("-----------------------------------------")
             option = int(input())
 
+            self.enemies = (Enemy('hunter'), Enemy('goblin'), Enemy('skeletons'))
+
             if option == 1:
-                print("Choose your target:")
-                for j, target in enumerate(self.enemies):
+                for index, target in enumerate(self.enemies):
                     if target.hp > 0:
-                        print(f"{j + 1}. {target.__class__.__name__}")
+                        print(f"{index + 1}. {target.enemy_type}")
                 target_index = int(input()) - 1
                 self.player.attack(self.enemies[target_index])
 
             elif option == 2:
-                amount = random.choice([10, 30, 50, 70, 90, 110])
+                amount = choice([10, 30, 50, 70, 90, 110])
                 self.player.heal(amount)
 
             elif option == 3:
