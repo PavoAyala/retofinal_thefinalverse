@@ -1,7 +1,7 @@
 from msilib.schema import SelfReg
 from time import sleep
 from os import system
-import stats
+from stats import FightSystem, Enemy
 import sys
 
 delay = 1
@@ -20,7 +20,7 @@ print("You are in the middle of a snowy forest it is to cold for you soyou start
 sleep(delay)
 lang2 = input("What are you going to do?\n\t\t\t[1.- You go fight the Hunters]\n\t\t\t[2.- You go searchin for another place to shellter]")
 if lang2 == "1":
-        stats.FightSystem(lang).start()
+        FightSystem(lang).start(Enemy('hunter'))
         system("cls")
         print("You have defeated the hunters, you stay inside the shellter a few hours to sleep")
         sleep(delay)

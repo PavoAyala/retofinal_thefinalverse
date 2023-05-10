@@ -42,18 +42,17 @@ class Individual:
     def __repr__(self) -> str:
         return f"Hp: {self.hp}\nDefense: {self.defense}\nMana: {self.mana}\nFaith: {self.faith}\nDarkness: {self.dark}\nStrength: {self.strength}\n"
     
-    
-        
+
     def receive_damage(self, damage):
         self.hp -= damage
         print(f"Received {damage} damage.")
         if self.hp <= 0:
             print("You are dead.")
             
-    def heal(self, target):
-        amount = randint(10, 30, 50, 70, 90, 110)
-        target.heal(amount)
-        print(f"{target} has been healed for {amount} HP.")
+    def heal(self):
+        amount = choice([10, 30, 50, 70, 90, 110])
+        self.hp += amount
+        print(f"{self} has been healed for {amount} HP.")
         
     def defend(self):
         self.defense += 5
@@ -202,6 +201,8 @@ class EldenGhost(Enemy):
 
 class FightSystem:
     def __init__(self, player_type):
+        player_type = player_type.lower()
+    
         if player_type == 'human':
             self.player = Human()
         elif player_type == 'demon':
@@ -211,7 +212,7 @@ class FightSystem:
         else:
             raise ValueError("Invalid player type")
 
-    def start(self):
+    def start(self, enemies):
         for i in range(1, 3):  # Número de turnos
             print(f"--- Turno {i} ---")
             if self.player.hp <= 0:
@@ -226,18 +227,13 @@ class FightSystem:
             print("-----------------------------------------")
             option = int(input())
 
-            self.enemies = (Enemy('hunter'), Enemy('goblin'), Enemy('skeletons'))
+            self.enemies = enemies
 
             if option == 1:
-                for index, target in enumerate(self.enemies):
-                    if target.hp > 0:
-                        print(f"{index + 1}. {target.enemy_type}")
-                target_index = int(input()) - 1
-                self.player.attack(self.enemies[target_index])
+                self.player.attack(self.enemies)
 
             elif option == 2:
-                amount = choice([10, 30, 50, 70, 90, 110])
-                self.player.heal(amount)
+                self.player.heal()
 
             elif option == 3:
                 self.player.defend()
@@ -252,10 +248,9 @@ class FightSystem:
                     enemy.reset_defense()
 
         print("End of the fight.")
-        alive_enemies = [enemy for enemy in self.enemies if enemy.hp > 0]
         if self.player.hp <= 0:
             print("You are defeated.")
-        elif len(alive_enemies) == 0:
+        elif self.enemies == 0:
             print("You win!")
         else:
             print("It's a tie.")
